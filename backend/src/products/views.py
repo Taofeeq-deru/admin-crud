@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Product
 from .serializers import ProductSerializer
 from django.http import Http404
+from rest_framework.exceptions import NotAuthenticated, PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,12 +16,21 @@ class ProductList(APIView):
         return Response(resp)
 
     def post(self, request, format=None):
+        if request.user and not request.user.is_authenticated:
+            resp = {
+                "success": False,
+                "message": NotAuthenticated.default_detail,
+                "status": NotAuthenticated.status_code,
+            }
+            return Response(resp, status=NotAuthenticated.status_code)
+
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             products = Product.objects.all()
             all_serializer = ProductSerializer(products, many=True)
             resp = {"success": True, "data": all_serializer.data}
+
             return Response(resp, status=status.HTTP_201_CREATED)
         respo = {
             "success": False,
@@ -44,6 +54,21 @@ class ProductDetail(APIView):
         return Response(resp)
 
     def put(self, request, pk, format=None):
+        if request.user and not request.user.is_authenticated:
+            resp = {
+                "success": False,
+                "message": NotAuthenticated.default_detail,
+                "status": NotAuthenticated.status_code,
+            }
+            return Response(resp, status=NotAuthenticated.status_code)
+        elif request.user.is_authenticated and not request.user.is_staff:
+            resp = {
+                "success": False,
+                "message": PermissionDenied.default_detail,
+                "status": PermissionDenied.status_code,
+            }
+            return Response(resp, status=PermissionDenied.status_code)
+
         product = self.get_object(pk)
         serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
@@ -56,6 +81,21 @@ class ProductDetail(APIView):
         return Response(respo, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
+        if request.user and not request.user.is_authenticated:
+            resp = {
+                "success": False,
+                "message": NotAuthenticated.default_detail,
+                "status": NotAuthenticated.status_code,
+            }
+            return Response(resp, status=NotAuthenticated.status_code)
+        elif request.user.is_authenticated and not request.user.is_staff:
+            resp = {
+                "success": False,
+                "message": PermissionDenied.default_detail,
+                "status": PermissionDenied.status_code,
+            }
+            return Response(resp, status=PermissionDenied.status_code)
+
         product = self.get_object(pk)
         product.delete()
         products = Product.objects.all()
