@@ -20,14 +20,21 @@ class Nav extends Component {
               Home
             </Link>
             <Link
-              to=""
+              to="/addnew"
+              className={`link ${
+                location.pathname === "/addnew" ? "active" : ""
+              }`}>
+              Add New Product
+            </Link>
+            <Link
+              to="/login"
               className={`link ${
                 location.pathname === "/login" ? "active" : ""
               }`}>
               Log In
             </Link>
             <Link
-              to=""
+              to="/signup"
               className={`link ${
                 location.pathname === "/signup" ? "active" : ""
               }`}>

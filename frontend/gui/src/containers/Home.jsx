@@ -15,6 +15,8 @@ class Home extends Component {
   };
 
   componentDidMount() {
+    document.title = "Products";
+    window.scrollTo(0, 0);
     const localData = JSON.parse(localStorage.getItem("products"));
 
     if (localData === null) {
@@ -27,13 +29,13 @@ class Home extends Component {
           loading: false,
           products: localData,
         });
-      }, 500);
+      }, 100);
     }
   }
 
   getData() {
     axios
-      .get("http://127.0.0.1:8000/products")
+      .get("http://127.0.0.1:8000/products/")
       .then((resp) => {
         this.setState({
           ...this.state,
@@ -91,6 +93,8 @@ class Home extends Component {
                 <div className="product-list">
                   <List products={products} />
                 </div>
+                {/* <h2 className="text-center form-title my-4">Add New Product</h2>
+                <Form method="post" id={null} product={null} /> */}
               </div>
             </div>
           </>
