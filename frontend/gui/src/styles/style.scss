@@ -1,6 +1,251 @@
+//screen sizes
+$xl: 87.5em; //4k and hi-res desktop
+$mxl: 70.5em; //4k and hi-res desktop
+$lg: 60em; //1080 and hi-res laptops
+$md: 40em; //hi-res tablets and low-res laptops
+$smd: 34em; //mm
+$sm: 26em; //mobile and low-res tablets
+$xs: 22em; //mobile (medium screen size) only
+$xxs: 20em; //mobile (small screen size) only
+//colors
 $grey: #acacac;
-$dark: #222222;
+$light: #f8f9fa;
+$dark: #343a40;
 $white: #ffffff;
+$blue: #007bff;
+$lightblue: #4196f0;
+//font
+$font: "Montserrat", sans-serif;
+//font size
+$fa-xs: 12px;
+$fa-sm: 14px;
+$fa-md: 16px;
+$fa-lg: 18px;
+$fa-xl: 24px;
+$fa-xxl: 36px;
+//mixins
+@mixin responsive($size) {
+  @media screen and (min-width: +$size) {
+    @content;
+  }
+}
 
-$font: 'Montserrat', sans-serif;
+//styles
+body {
+  font-family: $font;
+  font-size: $fa-xs;
+  background: $light;
+  @include responsive($sm) {
+    font-size: $fa-sm;
+  }
+  @include responsive($md) {
+    font-size: $fa-md;
+  }
+  @include responsive($lg) {
+    font-size: $fa-lg;
+  }
+}
 
+nav {
+  background: $white;
+  .d-flex {
+    .link {
+      padding: 12px 5px;
+      @include responsive($xs) {
+        padding: 16px 12px;
+      }
+
+      &:hover {
+        text-decoration: none;
+        background: $lightblue;
+        color: $white;
+      }
+    }
+
+    .link.active {
+      background: $blue;
+      color: $white;
+      font-weight: 500;
+    }
+  }
+}
+
+.alert-message {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 1900;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+.loading {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+
+  .beat {
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: beat;
+    animation-timing-function: ease;
+
+    @keyframes beat {
+      0% {
+        transform: scale(0.95);
+      }
+      33% {
+        transform: scale(1.05);
+      }
+      66% {
+        transform: scale(1.095);
+      }
+      100% {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+.home {
+  color: $dark;
+  .container {
+    h1 {
+      font-weight: 700;
+      font-size: 200%;
+    }
+    .product-list {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+
+      .product {
+        @include responsive(($lg)) {
+          width: 320px;
+        }
+        .details {
+          @include responsive($md) {
+            height: 200px;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-evenly;
+          }
+        }
+      }
+    }
+  }
+}
+
+.product {
+  width: 300px;
+  margin: 20px 0;
+  background: $white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px 2px rgba(229, 229, 229, 0.5);
+  color: $dark;
+  transition: transform 0.5 ease-in;
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+    transform: scale(1.005);
+  }
+  &:active {
+    transform: scale(0.995);
+  }
+
+  img {
+    border-radius: 10px 10px 0 0;
+    height: 300px;
+  }
+  .title {
+    font-weight: 500;
+    font-size: 150%;
+    text-transform: capitalize;
+  }
+  .desc {
+    text-transform: capitalize;
+    font-size: 80%;
+  }
+  .price-stock {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    .price {
+      font-size: 120%;
+      font-weight: 500;
+    }
+  }
+}
+
+.product-detail {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+
+  .product {
+    transition: none;
+    &:hover {
+      cursor: auto;
+      transform: unset;
+    }
+    &:active {
+      transform: unset;
+    }
+    img {
+      width: 100%;
+    }
+    @include responsive($md) {
+      display: flex;
+      flex-flow: row nowrap;
+      height: 200px;
+      width: 500px;
+      img {
+        width: 250px;
+        height: 100%;
+        border-radius: 10px 0 0 10px;
+      }
+
+      .details {
+        flex: 1;
+        padding: 10px 0;
+        display: flex;
+        flex-flow: column;
+        height: 100%;
+
+        .price-stock {
+          margin-top: auto;
+          width: 100%;
+        }
+      }
+    }
+
+    @include responsive($lg) {
+      width: 600px;
+      height: 280px;
+      img {
+        width: 300px;
+      }
+
+      .desc {
+        font-size: 100%;
+      }
+    }
+  }
+}
+
+.back-home {
+  color: $dark;
+  &:hover {
+    text-decoration: none;
+    color: $blue;
+  }
+}
