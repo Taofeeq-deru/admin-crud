@@ -27,6 +27,7 @@ nav {
 }
 
 nav .d-flex .link {
+  color: #4196f0;
   padding: 12px 5px;
 }
 
@@ -37,6 +38,7 @@ nav .d-flex .link {
 }
 
 nav .d-flex .link:hover {
+  cursor: pointer;
   text-decoration: none;
   background: #4196f0;
   color: #ffffff;
@@ -359,7 +361,9 @@ h1.form-title {
   font-size: 100%;
 }
 
-.new h1.form-title {
+.new h1.form-title,
+.login h1.form-title,
+.signup h1.form-title {
   font-weight: 700;
   font-size: 150%;
 }
@@ -442,5 +446,29 @@ h1.form-title {
   .form form .img-group img {
     height: 200px;
   }
+}
+
+.login-form,
+.signup-form {
+  width: 100%;
+  height: 60vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.login-form form,
+.signup-form form {
+  width: 420px;
 }
 /*# sourceMappingURL=style.css.map */
