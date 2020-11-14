@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { List, Fail } from "../components";
 import axios from "axios";
+import { ReactComponent as NoData } from "../nodata.svg";
 
 class Home extends Component {
   state = {
@@ -92,10 +93,12 @@ class Home extends Component {
               <div className="container py-2">
                 <h1 className="text-center my-4">Products</h1>
                 <div className="product-list">
-                  <List products={products} />
+                  {products.length < 1 ? (
+                    <NoData style={{ width: "400px", height: "450px" }} />
+                  ) : (
+                    <List products={products} />
+                  )}
                 </div>
-                {/* <h2 className="text-center form-title my-4">Add New Product</h2>
-                <Form method="post" id={null} product={null} /> */}
               </div>
             </div>
           </>
