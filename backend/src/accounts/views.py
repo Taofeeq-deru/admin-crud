@@ -8,7 +8,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView, CreateAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
@@ -16,13 +16,17 @@ from allauth.account import app_settings as allauth_settings
 
 from rest_auth.app_settings import (
     TokenSerializer,
+    UserDetailsSerializer,
     LoginSerializer,
     JWTSerializer,
     create_token,
 )
 from rest_auth.models import TokenModel
 from rest_auth.utils import jwt_encode
-from rest_auth.registration.app_settings import RegisterSerializer, register_permission_classes
+from rest_auth.registration.app_settings import (
+    RegisterSerializer,
+    register_permission_classes,
+)
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -200,3 +204,21 @@ class RegisterView(CreateAPIView):
         )
         return user
 
+
+class UserDetailsView(RetrieveUpdateAPIView):
+    """
+    Reads and updates UserModel fields
+    Accepts GET, PUT, PATCH methods.
+
+    Default accepted fields: username, first_name, last_name
+    Default display fields: pk, username, email, first_name, last_name
+    Read-only fields: pk, email
+
+    Returns UserModel fields.
+    """
+
+    serializer_class = UserDetailsSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user

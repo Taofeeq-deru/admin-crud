@@ -12,24 +12,26 @@ class ProductList(APIView):
     def get(self, request, format=None):
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
-        resp = {"success": True, "data": serializer.data}
+        new_list = serializer.data[::-1]
+        resp = {"success": True, "data": new_list}
         return Response(resp)
 
     def post(self, request, format=None):
-        if request.user and not request.user.is_authenticated:
-            resp = {
-                "success": False,
-                "message": NotAuthenticated.default_detail,
-                "status": NotAuthenticated.status_code,
-            }
-            return Response(resp, status=NotAuthenticated.status_code)
+        # if request.user and not request.user.is_authenticated:
+        #     resp = {
+        #         "success": False,
+        #         "message": NotAuthenticated.default_detail,
+        #         "status": NotAuthenticated.status_code,
+        #     }
+        #     return Response(resp, status=NotAuthenticated.status_code)
 
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             products = Product.objects.all()
             all_serializer = ProductSerializer(products, many=True)
-            resp = {"success": True, "data": all_serializer.data}
+            new_list = all_serializer.data[::-1]
+            resp = {"success": True, "data": new_list}
 
             return Response(resp, status=status.HTTP_201_CREATED)
         respo = {
@@ -54,20 +56,20 @@ class ProductDetail(APIView):
         return Response(resp)
 
     def put(self, request, pk, format=None):
-        if request.user and not request.user.is_authenticated:
-            resp = {
-                "success": False,
-                "message": NotAuthenticated.default_detail,
-                "status": NotAuthenticated.status_code,
-            }
-            return Response(resp, status=NotAuthenticated.status_code)
-        elif request.user.is_authenticated and not request.user.is_staff:
-            resp = {
-                "success": False,
-                "message": PermissionDenied.default_detail,
-                "status": PermissionDenied.status_code,
-            }
-            return Response(resp, status=PermissionDenied.status_code)
+        # if request.user and not request.user.is_authenticated:
+        #     resp = {
+        #         "success": False,
+        #         "message": NotAuthenticated.default_detail,
+        #         "status": NotAuthenticated.status_code,
+        #     }
+        #     return Response(resp, status=NotAuthenticated.status_code)
+        # elif request.user.is_authenticated and not request.user.is_staff:
+        #     resp = {
+        #         "success": False,
+        #         "message": PermissionDenied.default_detail,
+        #         "status": PermissionDenied.status_code,
+        #     }
+        #     return Response(resp, status=PermissionDenied.status_code)
 
         product = self.get_object(pk)
         serializer = ProductSerializer(product, data=request.data)
@@ -75,31 +77,33 @@ class ProductDetail(APIView):
             serializer.save()
             products = Product.objects.all()
             all_serializer = ProductSerializer(products, many=True)
-            resp = {"success": True, "data": all_serializer.data}
+            new_list = all_serializer.data[::-1]
+            resp = {"success": True, "data": new_list}
             return Response(resp)
         respo = {"success": False, "message": serializer.errors, "status": "400"}
         return Response(respo, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        if request.user and not request.user.is_authenticated:
-            resp = {
-                "success": False,
-                "message": NotAuthenticated.default_detail,
-                "status": NotAuthenticated.status_code,
-            }
-            return Response(resp, status=NotAuthenticated.status_code)
-        elif request.user.is_authenticated and not request.user.is_staff:
-            resp = {
-                "success": False,
-                "message": PermissionDenied.default_detail,
-                "status": PermissionDenied.status_code,
-            }
-            return Response(resp, status=PermissionDenied.status_code)
+        # if request.user and not request.user.is_authenticated:
+        #     resp = {
+        #         "success": False,
+        #         "message": NotAuthenticated.default_detail,
+        #         "status": NotAuthenticated.status_code,
+        #     }
+        #     return Response(resp, status=NotAuthenticated.status_code)
+        # elif request.user.is_authenticated and not request.user.is_staff:
+        #     resp = {
+        #         "success": False,
+        #         "message": PermissionDenied.default_detail,
+        #         "status": PermissionDenied.status_code,
+        #     }
+        #     return Response(resp, status=PermissionDenied.status_code)
 
         product = self.get_object(pk)
         product.delete()
         products = Product.objects.all()
         all_serializer = ProductSerializer(products, many=True)
-        resp = {"success": True, "data": all_serializer.data}
-        return Response(resp, status=status.HTTP_204_NO_CONTENT)
+        new_list = all_serializer.data[::-1]
+        resp = {"success": True, "data": new_list}
+        return Response(resp)
 

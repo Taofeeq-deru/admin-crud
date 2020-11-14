@@ -133,6 +133,24 @@ nav .d-flex .link.active {
   }
 }
 
+button.btn:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+button.btn-submit {
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+@media screen and (min-width: 22em) {
+  button.btn-submit {
+    margin-left: auto;
+    margin-bottom: 0;
+  }
+}
+
 .home {
   color: #343a40;
 }
@@ -329,5 +347,100 @@ nav .d-flex .link.active {
 .back-home:hover {
   text-decoration: none;
   color: #007bff;
+}
+
+h2.form-title {
+  font-weight: 700;
+  font-size: 150%;
+}
+
+h1.form-title {
+  font-weight: 500;
+  font-size: 100%;
+}
+
+.new h1.form-title {
+  font-weight: 700;
+  font-size: 150%;
+}
+
+.form {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.form form {
+  max-width: 420px;
+}
+
+.form form .label {
+  font-size: 100%;
+}
+
+.form form .img-group #image {
+  display: none;
+}
+
+.form form .img-group .imageLabel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  background: #ffffff;
+  height: 150px;
+}
+
+@media screen and (min-width: 22em) {
+  .form form .img-group .imageLabel {
+    height: 180px;
+  }
+}
+
+@media screen and (min-width: 40em) {
+  .form form .img-group .imageLabel {
+    height: 200px;
+  }
+}
+
+.form form .img-group .imageLabel .fas {
+  color: #007bff;
+}
+
+.form form .img-group img {
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  display: none;
+  height: 150px;
+}
+
+@media screen and (min-width: 22em) {
+  .form form .img-group img {
+    height: 180px;
+  }
+}
+
+@media screen and (min-width: 40em) {
+  .form form .img-group img {
+    height: 200px;
+  }
 }
 /*# sourceMappingURL=style.css.map */

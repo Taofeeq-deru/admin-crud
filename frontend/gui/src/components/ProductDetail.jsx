@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Product, Fail } from "./index";
+import { Product, Fail, Form } from "./index";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 
@@ -16,13 +16,14 @@ class ProductDetail extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.getData();
   }
 
   getData() {
     const productID = this.props.match.params.productID;
     axios
-      .get(`http://127.0.0.1:8000/products/${productID}`)
+      .get(`http://127.0.0.1:8000/products/${productID}/`)
       .then((resp) => {
         this.setState({
           ...this.state,
@@ -30,6 +31,7 @@ class ProductDetail extends Component {
           loading: false,
           product: resp.data.data,
         });
+        localStorage.setItem("product", JSON.stringify(resp.data.data));
       })
       .catch((err) => {
         if (err.response) {
@@ -93,17 +95,19 @@ class ProductDetail extends Component {
       if (success) {
         return (
           <>
-            <div>
-              <span className="d-flex flex-row mt-3 ml-3">
+            <div className="container">
+              <span className="d-flex flex-row mt-3">
                 <Link to="/" className="back-home">
                   Products
                 </Link>
                 {"/"}
-                <p className="ml-1"> {product.name}</p>
+                <p className="ml-1 text-capitalize"> {product.name}</p>
               </span>
               <div className="product-detail">
                 <Product product={product} />
               </div>
+              <h2 className="text-center form-title my-4">Update Product</h2>
+              <Form method="put" id={product.id} product={product} />
             </div>
           </>
         );

@@ -8,7 +8,7 @@ $sm: 26em; //mobile and low-res tablets
 $xs: 22em; //mobile (medium screen size) only
 $xxs: 20em; //mobile (small screen size) only
 //colors
-$grey: #acacac;
+$grey: #ced4da;
 $light: #f8f9fa;
 $dark: #343a40;
 $white: #ffffff;
@@ -109,6 +109,22 @@ nav {
         transform: scale(0.95);
       }
     }
+  }
+}
+
+button.btn {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+button.btn-submit {
+  width: 150px;
+  margin-bottom: 10px;
+  @include responsive($xs) {
+    margin-left: auto;
+    margin-bottom: 0;
   }
 }
 
@@ -247,5 +263,72 @@ nav {
   &:hover {
     text-decoration: none;
     color: $blue;
+  }
+}
+
+h2.form-title {
+  font-weight: 700;
+  font-size: 150%;
+}
+
+h1.form-title {
+  font-weight: 500;
+  font-size: 100%;
+}
+
+.new {
+  h1.form-title {
+    font-weight: 700;
+    font-size: 150%;
+  }
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  form {
+    max-width: 420px;
+    .label {
+      font-size: 100%;
+    }
+    .img-group {
+      #image {
+        display: none;
+      }
+      .imageLabel {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        cursor: pointer;
+        border: 1px solid $grey;
+        border-radius: 5px;
+        background: $white;
+        height: 150px;
+        @include responsive($xs) {
+          height: 180px;
+        }
+        @include responsive($md) {
+          height: 200px;
+        }
+        .fas {
+          color: $blue;
+        }
+      }
+      img {
+        width: 100%;
+        border: 1px solid $grey;
+        border-radius: 5px;
+        display: none;
+        height: 150px;
+        @include responsive($xs) {
+          height: 180px;
+        }
+        @include responsive($md) {
+          height: 200px;
+        }
+      }
+    }
   }
 }
