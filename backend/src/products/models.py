@@ -6,5 +6,7 @@ class Product(models.Model):
     desc = models.TextField(max_length=2500, blank=True)
     price = models.IntegerField(blank=False)
     stock = models.IntegerField(blank=False)
-    image = models.ImageField(upload_to="images", blank=True)
+    image = models.ImageField(
+        upload_to="images", blank=True, default="images/placeholder.png"
+    )
 
