@@ -12,6 +12,7 @@ from rest_framework.generics import GenericAPIView, CreateAPIView, RetrieveUpdat
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
+from allauth.account.utils import complete_signup
 from allauth.account import app_settings as allauth_settings
 
 from rest_auth.app_settings import (

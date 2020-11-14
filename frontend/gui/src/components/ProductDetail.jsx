@@ -17,7 +17,15 @@ class ProductDetail extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.getData();
+    const token = localStorage.getItem("token");
+
+    if (token === null) {
+      const url = window.location.href;
+      localStorage.setItem("prevUrl", url);
+      this.props.history.push("/login");
+    } else {
+      this.getData();
+    }
   }
 
   getData() {
@@ -107,7 +115,12 @@ class ProductDetail extends Component {
                 <Product product={product} />
               </div>
               <h2 className="text-center form-title my-4">Update Product</h2>
-              <Form method="put" id={product.id} product={product} />
+              <Form
+                method="put"
+                btnText="Update"
+                id={product.id}
+                product={product}
+              />
             </div>
           </>
         );

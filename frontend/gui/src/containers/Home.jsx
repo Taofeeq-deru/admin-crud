@@ -18,6 +18,7 @@ class Home extends Component {
     document.title = "Products";
     window.scrollTo(0, 0);
     const localData = JSON.parse(localStorage.getItem("products"));
+    localStorage.removeItem("prevUrl");
 
     if (localData === null) {
       this.getData();

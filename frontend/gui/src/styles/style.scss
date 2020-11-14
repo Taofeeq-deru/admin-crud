@@ -50,12 +50,14 @@ nav {
   background: $white;
   .d-flex {
     .link {
+      color: $lightblue;
       padding: 12px 5px;
       @include responsive($xs) {
         padding: 16px 12px;
       }
 
       &:hover {
+        cursor: pointer;
         text-decoration: none;
         background: $lightblue;
         color: $white;
@@ -276,7 +278,9 @@ h1.form-title {
   font-size: 100%;
 }
 
-.new {
+.new,
+.login,
+.signup {
   h1.form-title {
     font-weight: 700;
     font-size: 150%;
@@ -330,5 +334,18 @@ h1.form-title {
         }
       }
     }
+  }
+}
+
+.login-form,
+.signup-form {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  form {
+    width: 420px;
   }
 }

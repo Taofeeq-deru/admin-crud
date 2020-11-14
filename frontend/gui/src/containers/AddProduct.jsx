@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form } from "./index";
+import { Form } from "../components";
 import { withRouter } from "react-router-dom";
 
 class AddProduct extends Component {
@@ -10,6 +10,8 @@ class AddProduct extends Component {
     const token = localStorage.getItem("token");
 
     if (token === null) {
+      const url = window.location.href;
+      localStorage.setItem("prevUrl", url);
       this.props.history.push("/login");
     }
   }
@@ -19,7 +21,7 @@ class AddProduct extends Component {
       <>
         <div className="container new">
           <h1 className="text-center form-title my-4">Add New Product</h1>
-          <Form method="post" id={null} product={null} />
+          <Form method="post" btnText="Add" id={null} product={null} />
         </div>
       </>
     );

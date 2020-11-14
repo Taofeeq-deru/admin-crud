@@ -73,6 +73,7 @@ class Form extends Component {
   async handleSubmit(e, method, id) {
     e.preventDefault();
     const { name, desc, price, stock, image } = this.state;
+    const token = localStorage.getItem("token");
     if (method === "delete") {
       this.setState({ ...this.state, deleting: true });
     } else {
@@ -93,7 +94,10 @@ class Form extends Component {
           method,
           url,
           data: dataFormData,
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${token}`,
+          },
         })
           .then((resp) => {
             localStorage.setItem("products", JSON.stringify(resp.data.data));
@@ -102,13 +106,12 @@ class Form extends Component {
             history.push("/");
           })
           .catch((err) => {
-            if (err.response) {
-              console.log(err.response);
-            } else {
-              console.log(err);
-            }
-            this.setState({ ...initialState });
-            document.querySelector("#fileImage").style.display = "none";
+            window.scrollTo(0, 0);
+            this.setState({
+              ...this.state,
+              alert: { set: true, message: err.toString(), type: "danger" },
+            });
+            this.removeAlert();
           });
         break;
       case "put":
@@ -116,46 +119,68 @@ class Form extends Component {
           method,
           url: `${url}${id}/`,
           data: dataFormData,
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${token}`,
+          },
         })
           .then((resp) => {
-            console.log(resp.data);
             localStorage.setItem("products", JSON.stringify(resp.data.data));
             document.querySelector("#fileImage").style.display = "none";
             this.setState({ ...initialState });
             history.push("/");
           })
           .catch((err) => {
+            window.scrollTo(0, 0);
             if (err.response) {
-              console.log(err.response);
+              this.setState({
+                ...this.state,
+                alert: {
+                  set: true,
+                  message: "Only admin can update product",
+                  type: "danger",
+                },
+              });
             } else {
-              console.log(err);
+              this.setState({
+                ...this.state,
+                alert: { set: true, message: err.toString(), type: "danger" },
+              });
             }
-            this.setState({ ...initialState });
-            document.querySelector("#fileImage").style.display = "none";
+            this.removeAlert();
           });
         break;
       case "delete":
         await axios({
           method,
           url: `${url}${id}/`,
+          headers: { Authorization: `Token ${token}` },
         })
           .then((resp) => {
-            console.log(resp.data);
+            this.closeModal();
             localStorage.setItem("products", JSON.stringify(resp.data.data));
             document.querySelector("#fileImage").style.display = "none";
-            this.closeModal();
-            this.setState({ ...initialState });
             history.push("/");
           })
           .catch((err) => {
+            this.closeModal();
+            window.scrollTo(0, 0);
             if (err.response) {
-              console.log(err.response);
+              this.setState({
+                ...this.state,
+                alert: {
+                  set: true,
+                  message: "Only admin can delete product",
+                  type: "danger",
+                },
+              });
             } else {
-              console.log(err);
+              this.setState({
+                ...this.state,
+                alert: { set: true, message: err.toString(), type: "danger" },
+              });
             }
-            this.setState({ ...initialState });
-            document.querySelector("#fileImage").style.display = "none";
+            this.removeAlert();
           });
         break;
       default:
@@ -166,24 +191,18 @@ class Form extends Component {
           headers: { "Content-Type": "multipart/form-data" },
         })
           .then((resp) => {
-            console.log(resp.data);
             localStorage.setItem("products", JSON.stringify(resp.data.data));
             document.querySelector("#fileImage").style.display = "none";
-            this.setState({
-              ...initialState,
-              alert: { set: true, message: "Product Added", type: "success" },
-            });
             this.removeAlert();
             window.location.reload();
           })
           .catch((err) => {
-            if (err.response) {
-              console.log(err.response);
-            } else {
-              console.log(err);
-            }
-            this.setState({ ...initialState });
-            document.querySelector("#fileImage").style.display = "none";
+            window.scrollTo(0, 0);
+            this.setState({
+              ...this.state,
+              alert: { set: true, message: err.toString(), type: "danger" },
+            });
+            this.removeAlert();
           });
     }
   }
@@ -194,13 +213,13 @@ class Form extends Component {
         ...this.state,
         alert: { ...this.state.alert, set: false },
       });
-    }, 2000);
+    }, 3000);
   }
 
   render() {
     const { name, desc, price, stock, img_url, loading, deleting } = this.state;
     const { set, type, message } = this.state.alert;
-    const { method, id } = this.props;
+    const { method, id, btnText } = this.props;
     return (
       <>
         <Alert set={set} type={type} message={message} />
@@ -307,7 +326,7 @@ class Form extends Component {
                     <span className="sr-only">loading...</span>
                   </span>
                 )}
-                Submit
+                {btnText}
               </button>
             </div>
           </form>
