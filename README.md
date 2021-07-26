@@ -1,4 +1,4 @@
-# Repo for Veegil software developer task
+# An admin crud with restricted access based on persmissions
 
 Project was built using django and react JS
 Backend is a django-restframework API
